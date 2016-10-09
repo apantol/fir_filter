@@ -27,9 +27,15 @@ module MAC
     
     always @(posedge clock)
     begin
-        b_out     <= b_in;
-        c_in_d    <= c_in;
-        coeff_d   <= coeff;
+        if(reset) begin
+            b_out   <= 0;
+            c_in_d  <= 0;
+            coeff_d <= 0;
+        end else begin
+            b_out     <= b_in;
+            c_in_d    <= c_in;
+            coeff_d   <= coeff;
+        end
     end
     
     always @(posedge clock)
