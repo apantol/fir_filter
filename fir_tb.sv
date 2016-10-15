@@ -5,9 +5,9 @@
 		logic clock = 0;
 		logic reset = 0;
 		logic signed [11:0] fir_in = 0;
-		logic signed [65:0] fir_out;
+		logic signed [11:0] fir_out;
 
-		always #1 clock = ~clock;
+		always #1 clock = ~clock; 
 
 		task reset_system();
 			reset = 1'b1;
@@ -17,9 +17,9 @@
 		endtask : reset_system
 
 		task dirac_test();
-			fir_in = 12'h0CF;
+			fir_in =  12'h7FF;
 			@ (posedge clock);
-			fir_in = 12'h000;
+			fir_in =  12'h000;
 			@ (posedge clock);
 		endtask : dirac_test
 
