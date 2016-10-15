@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 //A.P
-//TODO: add more pipelines to increase maximum allowed clock frequency
+//TODO: add more pipelines to improve this design...
 
 module MAC #(
         parameter B_WIDTH = 12,
