@@ -1,19 +1,22 @@
 `timescale 1ns / 1ps
 
-module MAC
-#(  parameter B_WIDTH = 12,
-    parameter C_WIDTH = 12,
-    parameter COEFF_W = 16,
-    parameter C_OUT = C_WIDTH + 1)
+//A.P
+//TODO: add more pipelines to increase maximum allowed clock frequency
+
+module MAC #(
+        parameter B_WIDTH = 12,
+        parameter C_WIDTH = 12,
+        parameter COEFF_W = 16,
+        parameter C_OUT = C_WIDTH + 1)
     (
-    input clock,
-    input reset,
+        input clock,
+        input reset,
     
-    input logic  signed [COEFF_W - 1:0] coeff,
-    input logic  signed [B_WIDTH - 1:0] b_in,
-    input logic  signed [C_WIDTH - 1:0] c_in,
-    output logic signed [B_WIDTH - 1:0] b_out,
-    output logic signed [C_WIDTH    :0] c_out
+        input  logic signed [COEFF_W - 1:0] coeff,
+        input  logic signed [B_WIDTH - 1:0] b_in,
+        input  logic signed [C_WIDTH - 1:0] c_in,
+        output logic signed [B_WIDTH - 1:0] b_out,
+        output logic signed [C_WIDTH - 1:0] c_out
     );
     
     localparam MULT = COEFF_W + B_WIDTH;
@@ -42,6 +45,7 @@ module MAC
         end
     end
     
+    // Rounding algorithm...
     always @(posedge clock)
     begin
         if(reset) begin

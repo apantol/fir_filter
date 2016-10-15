@@ -1,11 +1,14 @@
 	`timescale 1ns / 1ps
+	//A.P.
+	//very simple testbench for handcoded FIR filter...
+	
 	
 	module fir_tb();
 
 		logic clock = 0;
 		logic reset = 0;
-		logic signed [11:0] fir_in = 0;
-		logic signed [11:0] fir_out;
+		logic signed [15:0] fir_in = 0;
+		logic signed [15:0] fir_out;
 
 		always #1 clock = ~clock; 
 
@@ -26,22 +29,26 @@
 		task wave_from_file();
 		  int fid2;
 		  int index;
-		  fid2 = $fopen("C:/Users/Arek/simulations/sine_in.txt", "r");
+		  int sI;
+		  
+		  fid2 = $fopen("D:/priv/sine_in.txt", "r");
 		  
 		  for(index = 0; index < 2048; index++) begin
-		      @(posedge clock);
-		      $fscanf(fid2, "%d\n", fir_in);
+		      @(negedge clock);
+		      sI = $fscanf(fid2, "%d\n", fir_in);
+		      @(negedge clock);
 		  end
 		endtask
 		
 		task capture_data(int samples);
 		  int fid1;
 		  int x;
-		  fid1 = $fopen("C:/Users/Arek/simulations/sine_out.txt", "w");
+		  fid1 = $fopen("D:/priv/sine_out.txt", "w");
 		  
 		  for(x = 0; x < samples; x++) begin
-		      @(posedge clock);
+		      @(negedge clock);
 		      $fwrite(fid1, "%d\n", fir_out);
+		      @(negedge clock);
 		  end    
 		endtask
 
@@ -60,7 +67,7 @@
 
 
 		fir_top #(
-				.D_W(12)
+				.D_W(16)
 			) inst_fir_top (
 				.clock   (clock),
 				.reset   (reset),
